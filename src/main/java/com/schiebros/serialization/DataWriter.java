@@ -2,6 +2,12 @@ package com.schiebros.serialization;
 
 public class DataWriter {
 
+	public static final byte[] getBytes(boolean value) {
+		return new byte[] { (byte) (value ? 1 : 0) };
+	}
+	
+	// integer numbers
+	
 	public static final byte[] getBytes(short value) {
 		return new byte[] { (byte) (value >> 8 * 1), (byte) (value) };
 	}

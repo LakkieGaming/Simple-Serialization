@@ -4,6 +4,10 @@ import java.nio.ByteBuffer;
 
 public class DataReader {
 
+	public static final boolean readBoolean(byte[] values) {
+		return values[0] != 0;
+	}
+	
 	// whole numbers
 	
 	public static final char readChar(byte[] values) {

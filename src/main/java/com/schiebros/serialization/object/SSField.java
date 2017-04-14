@@ -1,5 +1,8 @@
 package com.schiebros.serialization.object;
 
+import com.schiebros.serialization.ByteWriter;
+import com.schiebros.serialization.DataWriter;
+
 public class SSField extends SSVariable {
 
 	public short dataLength;
@@ -14,6 +17,8 @@ public class SSField extends SSVariable {
 	}
 
 	public byte[] runExport() {
+		ByteWriter writer = new ByteWriter();
+		writer.append(DataWriter.getBytes(nameLength));
 		return null;
 	}
 

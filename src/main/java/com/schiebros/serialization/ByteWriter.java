@@ -49,5 +49,13 @@ public class ByteWriter {
 	public boolean isClosed() {
 		return closed;
 	}
+	
+	public static byte[] subArray(byte[] src, int start, int end) {
+		byte[] buffer = new byte[end - start];
+		for (int i = 0; i < buffer.length; i++) {
+			buffer[i] = src[i];
+		}
+		return buffer;
+	}
 
 }

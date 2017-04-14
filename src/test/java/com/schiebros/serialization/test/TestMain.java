@@ -1,7 +1,7 @@
 package com.schiebros.serialization.test;
 
-import com.schiebros.serialization.DataReader;
-import com.schiebros.serialization.DataWriter;
+import com.schiebros.serialization.ArrayReader;
+import com.schiebros.serialization.ArrayWriter;
 
 public class TestMain {
 
@@ -9,34 +9,32 @@ public class TestMain {
 		for (int i = 0; i < bytes.length; i++) {
 			System.out.format("0x%x ", bytes[i]);
 		}
-		System.out.println();
+		System.out.println("");
 	}
-	
+
+	public static void printInts(int[] ints) {
+		System.out.print("{ ");
+		for (int i = 0; i < ints.length; i++) {
+			if (i == 0) {
+				System.out.print(ints[i]);
+			} else {
+				System.out.print(", " + ints[i]);
+			}
+		}
+		System.out.println(" }");
+	}
+
 	public static void main(String[] args) {
-		System.out.println("Converting 87 to bytes . . .");
 
-		byte[] b0 = DataWriter.getBytes(87);
-		byte[] b1 = DataWriter.getBytes((long) (87));
-		byte[] b2 = DataWriter.getBytes((short) (87));
-		byte[] b3 = DataWriter.getBytes((float) 87.3);
-
-		System.out.println("Integer");
-		printBytes(b0);
+		byte[] bufferData = new byte[100];
+		int[] data = new int[] { 5, 4, 734 };
+		System.out.println("Writing bytes: ");
+		printInts(data);
+		ArrayWriter.writeInlineArray(0, data, bufferData);
 		
-		System.out.println("Long");
-		printBytes(b1);
-		
-		System.out.println("Short");
-		printBytes(b2);
-		
-		System.out.println("Float");
-		printBytes(b3);
-		
-		System.out.println("\nRead Int");
-		System.out.println(DataReader.readInt(b0));
-		
-		System.out.println("Read Float");
-		System.out.println(DataReader.readFloat(b3));
+		System.out.println("Writing deserialized data");
+		int[] buffer = new int[3];
+		printInts(ArrayReader.readInlineArray(0, buffer, bufferData));
 
 	}
 

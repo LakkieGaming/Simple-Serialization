@@ -36,4 +36,33 @@ public class DataReader {
 		return Double.longBitsToDouble(readLong(values));
 	}
 	
+	// reading inline
+	public static final boolean readInlineBoolean(byte[] values, int offset) {
+		return values[offset] != 0 ? true : false;
+	}
+	
+	public static final char readInlineChar(byte[] values, int offset) {
+		return ByteBuffer.wrap(values, offset, 2).getChar();
+	}
+	
+	public static final short readInlineShort(byte[] values, int offset) {
+		return ByteBuffer.wrap(values, offset, 2).getShort();
+	}
+	
+	public static final int readInlineInt(byte[] values, int offset) {
+		return ByteBuffer.wrap(values, offset, 4).getInt();
+	}
+	
+	public static final float readInlineFloat(byte[] values, int offset) {
+		return Float.intBitsToFloat(readInlineInt(values, offset));
+	}
+	
+	public static final long readInlineLong(byte[] values, int offset) {
+		return ByteBuffer.wrap(values, offset, 8).getLong();
+	}
+	
+	public static final double readInlineDouble(byte[] values, int offset) {
+		return Double.longBitsToDouble(readInlineLong(values, offset));
+	}
+	
 }

@@ -1,8 +1,8 @@
 package com.schiebros.serialization.test;
 
-import com.schiebros.serialization.DataReader;
-import com.schiebros.serialization.DataWriter;
-import com.schiebros.serialization.object.SSField;
+import com.schiebros.serialization.ArrayWriter;
+import com.schiebros.serialization.object.SSArray;
+import com.schiebros.serialization.object.SSType;
 
 public class TestMain {
 
@@ -24,25 +24,52 @@ public class TestMain {
 		}
 		System.out.println(" }");
 	}
+	
+	public static void printFloats(float[] floats) {
+		System.out.print("{ ");
+		for (int i = 0; i < floats.length; i++) {
+			if (i == 0) {
+				System.out.print(floats[i]);
+			} else {
+				System.out.print(", " + floats[i]);
+			}
+		}
+		System.out.println(" }");
+	}
+	
+	public static void printBytesAsArray(byte[] bytes) {
+		System.out.print("{ ");
+		for (int i = 0; i < bytes.length; i++) {
+			if (i == 0) {
+				System.out.print(bytes[i]);
+			} else {
+				System.out.print(", " + bytes[i]);
+			}
+		}
+		System.out.println(" }");
+	}
 
 	public static void main(String[] args) {
 
-		int intField = 823;
-		System.out.println("Creating field \"testfield\" with value of " + intField);
-		SSField field = new SSField("testfield".toCharArray(), DataWriter.getBytes(intField));
-		System.out.println("Exporting field data");
-		byte[] fieldData = field.runExport();
+		float[] rawData = new float[] { 43.42f, 31f, 82238.238278F };
+		String name = "testarray";
+		System.out.println("Creating array with name: " + name);
+		byte[] buffer = new byte[rawData.length * 4];
+		ArrayWriter.writeInlineArray(0, rawData, buffer);
+		SSArray rawArray = new SSArray(name.toCharArray(), buffer, SSType.FLOAT);
+		System.out.println("Created array " + name);
+		System.out.println("Serializing array");
+		byte[] arrayData = rawArray.runExport();
+		System.out.println("Serialized array");
 		
-		System.out.println("Creating new field");
-		SSField field2 = new SSField();
-		System.out.println("Reading field from data");
-		field2.runImport(fieldData);
-		System.out.println("Field copy data: ");
-		printBytes(field2.data);
-		System.out.println("Field Length: " + field2.nameLength);
-		System.out.println("Field Name: " + new String(field2.name));
-		System.out.println("Field Data: " + DataReader.readInt(field2.data));
-		System.out.println("Field Size: " + field2.size + " bytes");
+		System.out.println("Deserializing array");
+		SSArray array = new SSArray();
+		array.runImport(arrayData);
+		System.out.println("Array Name Length: " + array.nameLength);
+		System.out.println("Array Name: " + new String(array.name));
+		System.out.println("Array Length: " + array.getArrayLength());
+		System.out.println("Array Data:");
+		printFloats(array.getFloat());
 		
 	}
 

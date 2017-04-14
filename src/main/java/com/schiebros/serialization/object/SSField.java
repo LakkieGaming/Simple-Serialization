@@ -3,6 +3,7 @@ package com.schiebros.serialization.object;
 import com.schiebros.serialization.ArrayReader;
 import com.schiebros.serialization.ArrayWriter;
 import com.schiebros.serialization.DataReader;
+import com.schiebros.serialization.DataWriter;
 
 public class SSField extends SSVariable {
 
@@ -75,6 +76,32 @@ public class SSField extends SSVariable {
 		this.size = (short) (2 + name.length * 2 + 1 + 2 + data.length);
 	}
 	
+	public static SSField asChar(String name, char value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
 	
+	public static SSField asShort(String name, short value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
+	
+	public static SSField asInt(String name, int value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
+	
+	public static SSField asFloat(String name, float value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
+	
+	public static SSField asLong(String name, long value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
+	
+	public static SSField asDouble(String name, double value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
+	
+	public static SSField asBoolean(String name, boolean value) {
+		return new SSField(name.toCharArray(), DataWriter.getBytes(value));
+	}
 
 }

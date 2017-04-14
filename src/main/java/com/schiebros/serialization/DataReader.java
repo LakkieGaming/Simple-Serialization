@@ -37,6 +37,10 @@ public class DataReader {
 	}
 	
 	// reading inline
+	public static final byte readInlineByte(byte[] values, int offset) {
+		return ByteBuffer.wrap(values, offset, 1).get();
+	}
+	
 	public static final boolean readInlineBoolean(byte[] values, int offset) {
 		return values[offset] != 0 ? true : false;
 	}

@@ -2,6 +2,13 @@ package com.schiebros.serialization;
 
 public class ArrayWriter extends DataWriter {
 
+	public static final int writeInlineArray(int offset, byte[] values, byte[] out) {
+		for (int i = 0; i < values.length; i++) {
+			offset = writeInlineBytes(offset, values[i], out);
+		}
+		return offset;
+	}
+	
 	public static final int writeInlineArray(int offset, boolean[] values, byte[] out) {
 		for (int i = 0; i < values.length; i++) {
 			offset = writeInlineBytes(offset, values[i], out);

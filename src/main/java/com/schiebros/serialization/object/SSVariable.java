@@ -7,16 +7,15 @@ public abstract class SSVariable {
 	public byte type;
 	public short size;
 	
-	public SSVariable(short nameLength, char[] name, byte type, short size) {
+	public SSVariable(short nameLength, char[] name, byte type) {
 		this.nameLength = nameLength;
 		this.name = name;
 		this.type = type;
-		this.size = size;
 	}
 
 	public abstract byte[] runExport();
 	
-	public abstract SSVariable runImport();
+	public abstract void runImport(byte[] data);
 
 	public static enum SSVariableType {
 		

@@ -39,6 +39,12 @@ public class DataWriter {
 	}
 	
 	// inline methods
+	public static final int writeInlineBytes(int offset, byte value, byte[] out) {
+		out[offset] = value;
+		offset++;
+		return offset;
+	}
+	
 	public static final int writeInlineBytes(int offset, boolean value, byte[] out) {
 		out[offset] = (byte) (value ? 1 : 0);
 		offset++;

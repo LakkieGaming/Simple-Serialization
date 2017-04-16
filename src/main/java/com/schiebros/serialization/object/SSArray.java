@@ -136,10 +136,40 @@ public class SSArray extends SSVariable {
 		this.size = (short) (2 + this.name.length * 2 + 1 + 2 + this.data.length + 1);
 	}
 	
+	public static SSArray asCharArray(String name, char[] data) {
+		byte[] buffer = new byte[data.length * 2];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.CHAR);
+	}
+	
+	public static SSArray asShortArray(String name, short[] data) {
+		byte[] buffer = new byte[data.length * 2];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.SHORT);
+	}
+	
 	public static SSArray asIntArray(String name, int[] data) {
 		byte[] buffer = new byte[data.length * 4];
 		ArrayWriter.writeInlineArray(0, data, buffer);
 		return new SSArray(name.toCharArray(), buffer, SSType.INT);
+	}
+	
+	public static SSArray asFloatArray(String name, float[] data) {
+		byte[] buffer = new byte[data.length * 4];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.FLOAT);
+	}
+	
+	public static SSArray asLongArray(String name, long[] data) {
+		byte[] buffer = new byte[data.length * 8];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.LONG);
+	}
+	
+	public static SSArray asDoubleArray(String name, double[] data) {
+		byte[] buffer = new byte[data.length * 8];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.DOUBLE);
 	}
 
 }

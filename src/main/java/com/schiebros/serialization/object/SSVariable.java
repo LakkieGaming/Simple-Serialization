@@ -24,7 +24,7 @@ public abstract class SSVariable {
 
 	public static enum SSVariableType {
 		
-		FIELD((byte)(1)), ARRAY((byte)(2)), OBJECT((byte) 3);
+		FIELD((byte)(1)), ARRAY((byte)(2)), OBJECT((byte) 3), HOLDER((byte) 4);
 		
 		private final byte typeID;
 		

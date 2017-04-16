@@ -2,10 +2,11 @@ package com.schiebros.serialization.test;
 
 import com.schiebros.serialization.object.SSArray;
 import com.schiebros.serialization.object.SSField;
+import com.schiebros.serialization.object.SSHolder;
 import com.schiebros.serialization.object.SSObject;
 
 public class Printer {
-	
+
 	public static void printBytes(byte[] bytes) {
 		for (int i = 0; i < bytes.length; i++) {
 			System.out.format("0x%x ", bytes[i]);
@@ -24,7 +25,7 @@ public class Printer {
 		}
 		System.out.println(" }");
 	}
-	
+
 	public static String intsTostring(int[] ints) {
 		String result = "{ ";
 		for (int i = 0; i < ints.length; i++) {
@@ -62,32 +63,62 @@ public class Printer {
 		System.out.println(" }");
 	}
 
-	public static void printObject(SSObject object) {
-		System.out.println("---------------------");
-		System.out.println("\t" + new String(object.name));
-		System.out.println("---------------------");
-		System.out.println("Object Type: " + object.type);
-		System.out.println("Object Name: " + new String(object.name));
-		System.out.println("Object Field Count: " + object.fieldCount);
+	public static void printObject(String prefix, SSObject object) {
+		System.out.println(prefix + "---------------------");
+		System.out.println(prefix + "\t" + new String(object.name));
+		System.out.println(prefix + "---------------------");
+		System.out.println(prefix + "Object Type: " + object.type);
+		System.out.println(prefix + "Object Name: " + new String(object.name));
+		System.out.println(prefix + "Object Field Count: " + object.fieldCount);
 		for (SSField field : object.getFields()) {
 			System.out.println();
-			System.out.println("\tField Type: " + field.type);
-			System.out.println("\tField Name: " + new String(field.name));
-			System.out.println("\tField Value: " + field.getInt());
+			System.out.println(prefix + "\tField Type: " + field.type);
+			System.out.println(prefix + "\tField Name: " + new String(field.name));
+			System.out.println(prefix + "\tField Value: " + field.getInt());
 		}
 		System.out.println();
-		System.out.println("Object Array Count: " + object.arrayCount);
+		System.out.println(prefix + "Object Array Count: " + object.arrayCount);
 		for (SSArray array : object.getArrays()) {
 			System.out.println();
-			System.out.println("\tArray Type: " + array.type);
-			System.out.println("\tArray Name: " + new String(array.name));
-			System.out.println("\tArray Value: " + intsTostring(array.getInt()));
+			System.out.println(prefix + "\tArray Type: " + array.type);
+			System.out.println(prefix + "\tArray Name: " + new String(array.name));
+			System.out.println(prefix + "\tArray Value: " + intsTostring(array.getInt()));
 		}
 		System.out.println();
-		System.out.println("Printed object " + new String(object.name));
+		System.out.println(prefix + "Printed object " + new String(object.name));
+		System.out.println(prefix + "---------------------");
+		System.out.println(prefix + "\tEnd Object");
+		System.out.println(prefix + "---------------------");
+	}
+
+	public static void printHolder(SSHolder holder) {
 		System.out.println("---------------------");
-		System.out.println("\tEnd");
+		System.out.println("\t" + new String(holder.name));
 		System.out.println("---------------------");
+		String prefix = "";
+		for (SSField field : holder.getFields()) {
+			System.out.println();
+			System.out.println(prefix + "\tField Type: " + field.type);
+			System.out.println(prefix + "\tField Name: " + new String(field.name));
+			System.out.println(prefix + "\tField Value: " + field.getInt());
+		}
+		System.out.println();
+		System.out.println(prefix + "Object Array Count: " + holder.arrayCount);
+		for (SSArray array : holder.getArrays()) {
+			System.out.println();
+			System.out.println(prefix + "\tArray Type: " + array.type);
+			System.out.println(prefix + "\tArray Name: " + new String(array.name));
+			System.out.println(prefix + "\tArray Value: " + intsTostring(array.getInt()));
+		}
+		System.out.println();
+		System.out.println(prefix + "Printed arrays and fields");
+		System.out.println("Printing objects");
+		for (SSObject object : holder.getObjects()) {
+			printObject("\t", object);
+		}
+		System.out.println(prefix + "---------------------");
+		System.out.println(prefix + "\tEnd Holder");
+		System.out.println(prefix + "---------------------");
 	}
 
 }

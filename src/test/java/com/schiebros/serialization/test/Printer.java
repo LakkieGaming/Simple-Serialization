@@ -64,7 +64,7 @@ public class Printer {
 
 	public static void printObject(SSObject object) {
 		System.out.println("---------------------");
-		System.out.println(new String(object.name));
+		System.out.println("\t" + new String(object.name));
 		System.out.println("---------------------");
 		System.out.println("Object Type: " + object.type);
 		System.out.println("Object Name: " + new String(object.name));
@@ -86,7 +86,7 @@ public class Printer {
 		System.out.println();
 		System.out.println("Printed object " + new String(object.name));
 		System.out.println("---------------------");
-		System.out.println("End");
+		System.out.println("\tEnd");
 		System.out.println("---------------------");
 	}
 

@@ -2,9 +2,12 @@ package com.schiebros.serialization.object;
 
 public abstract class SSVariable {
 
+	// exporting variables
+	public byte type;
 	public short nameLength;
 	public char[] name;
-	public byte type;
+
+	// non exporting variables
 	public short size;
 	
 	public SSVariable(short nameLength, char[] name, byte type) {
@@ -16,10 +19,12 @@ public abstract class SSVariable {
 	public abstract byte[] runExport();
 	
 	public abstract void runImport(byte[] data);
+	
+	public abstract void runImport(byte[] data, int offset);
 
 	public static enum SSVariableType {
 		
-		FIELD((byte)(1)), ARRAY((byte)(2));
+		FIELD((byte)(1)), ARRAY((byte)(2)), OBJECT((byte) 3);
 		
 		private final byte typeID;
 		

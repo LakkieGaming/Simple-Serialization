@@ -50,9 +50,9 @@ public class SSField extends SSVariable {
 		byte[] buffer = new byte[this.size];
 		int index = 0;
 		// writing SSVariable data
+		index = ArrayWriter.writeInlineBytes(index, type, buffer);
 		index = ArrayWriter.writeInlineBytes(index, nameLength, buffer);
 		index = ArrayWriter.writeInlineArray(index, name, buffer);
-		index = ArrayWriter.writeInlineBytes(index, type, buffer);
 		// writing SSField data
 		index = ArrayWriter.writeInlineBytes(index, dataLength, buffer);
 		index = ArrayWriter.writeInlineArray(index, data, buffer);
@@ -62,18 +62,34 @@ public class SSField extends SSVariable {
 	public void runImport(byte[] data) {
 		int index = 0;
 		// reading SSVariable data
+		this.type = ArrayReader.readInlineByte(data, index);
+		index += 1;
 		this.nameLength = ArrayReader.readInlineShort(data, index);
 		index += 2;
 		this.name = ArrayReader.readInlineArray(index, new char[this.nameLength], data);
 		index += this.nameLength * 2;
-		this.type = ArrayReader.readInlineByte(data, index);
-		index += 1;
 		// reading SSField data
 		this.dataLength = ArrayReader.readInlineShort(data, index);
 		index += 2;
 		this.data = ArrayReader.readInlineArray(index, new byte[this.dataLength], data);
 		index += this.dataLength;
-		this.size = (short) (2 + name.length * 2 + 1 + 2 + data.length);
+		this.size = (short) (2 + name.length * 2 + 1 + 2 + this.data.length);
+	}
+	
+	public void runImport(byte[] data, int offset) {
+		// reading SSVariable data
+		this.type = ArrayReader.readInlineByte(data, offset);
+		offset += 1;
+		this.nameLength = ArrayReader.readInlineShort(data, offset);
+		offset += 2;
+		this.name = ArrayReader.readInlineArray(offset, new char[this.nameLength], data);
+		offset += this.nameLength * 2;
+		// reading SSField data
+		this.dataLength = ArrayReader.readInlineShort(data, offset);
+		offset += 2;
+		this.data = ArrayReader.readInlineArray(offset, new byte[this.dataLength], data);
+		offset += this.dataLength;
+		this.size = (short) (2 + name.length * 2 + 1 + 2 + this.data.length);
 	}
 	
 	public static SSField asChar(String name, char value) {

@@ -89,9 +89,9 @@ public class SSArray extends SSVariable {
 		byte[] buffer = new byte[this.size];
 		int index = 0;
 		// variable data
+		index = ArrayWriter.writeInlineBytes(index, type, buffer);
 		index = ArrayWriter.writeInlineBytes(index, nameLength, buffer);
 		index = ArrayWriter.writeInlineArray(index, name, buffer);
-		index = ArrayWriter.writeInlineBytes(index, type, buffer);
 		// array data
 		index = ArrayWriter.writeInlineBytes(index, dataLength, buffer);
 		index = ArrayWriter.writeInlineArray(index, data, buffer);
@@ -102,12 +102,12 @@ public class SSArray extends SSVariable {
 	public void runImport(byte[] data) {
 		int index = 0;
 		// variable data
+		this.type = ArrayReader.readInlineByte(data, index);
+		index += 1;
 		this.nameLength = ArrayReader.readInlineShort(data, index);
 		index += 2;
 		this.name = ArrayReader.readInlineArray(index, new char[this.nameLength], data);
 		index += this.nameLength * 2;
-		this.type = ArrayReader.readInlineByte(data, index);
-		index += 1;
 		// array data
 		this.dataLength = ArrayReader.readInlineShort(data, index);
 		index += 2;
@@ -115,7 +115,31 @@ public class SSArray extends SSVariable {
 		index += this.dataLength;
 		this.typeID = ArrayReader.readInlineByte(data, index);
 		index += 1;
-		this.size = (short) (2 + this.name.length * 2 + 1 + 2 + data.length + 1);
+		this.size = (short) (2 + this.name.length * 2 + 1 + 2 + this.data.length + 1);
+	}
+
+	public void runImport(byte[] data, int offset) {
+		// variable data
+		this.type = ArrayReader.readInlineByte(data, offset);
+		offset += 1;
+		this.nameLength = ArrayReader.readInlineShort(data, offset);
+		offset += 2;
+		this.name = ArrayReader.readInlineArray(offset, new char[this.nameLength], data);
+		offset += this.nameLength * 2;
+		// array data
+		this.dataLength = ArrayReader.readInlineShort(data, offset);
+		offset += 2;
+		this.data = ArrayReader.readInlineArray(offset, new byte[this.dataLength], data);
+		offset += this.dataLength;
+		this.typeID = ArrayReader.readInlineByte(data, offset);
+		offset += 1;
+		this.size = (short) (2 + this.name.length * 2 + 1 + 2 + this.data.length + 1);
+	}
+	
+	public static SSArray asIntArray(String name, int[] data) {
+		byte[] buffer = new byte[data.length * 4];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.INT);
 	}
 
 }

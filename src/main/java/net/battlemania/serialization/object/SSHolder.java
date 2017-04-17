@@ -84,6 +84,33 @@ public class SSHolder extends SSVariable {
 	public List<SSArray> getArrays() {
 		return arrays;
 	}
+	
+	public SSObject getObject(String name) {
+		for (SSObject object : getObjects()) {
+			if (new String(object.name).equals(name)) {
+				return object;
+			}
+		}
+		return null;
+	}
+	
+	public SSField getField(String name) {
+		for (SSField field : getFields()) {
+			if (new String(field.name).equals(name)) {
+				return field;
+			}
+		}
+		return null;
+	}
+	
+	public SSArray getArray(String name) {
+		for (SSArray array : getArrays()) {
+			if (new String(array.name).equalsIgnoreCase(name)) {
+				return array;
+			}
+		}
+		return null;
+	}
 
 	public byte[] runExport() {
 		byte[] buffer = new byte[this.size];

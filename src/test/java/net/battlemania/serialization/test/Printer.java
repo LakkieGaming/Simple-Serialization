@@ -96,20 +96,6 @@ public class Printer {
 		System.out.println("\t" + new String(holder.name));
 		System.out.println("---------------------");
 		String prefix = "";
-		for (SSField field : holder.getFields()) {
-			System.out.println();
-			System.out.println(prefix + "\tField Type: " + field.type);
-			System.out.println(prefix + "\tField Name: " + new String(field.name));
-			System.out.println(prefix + "\tField Value: " + field.getInt());
-		}
-		System.out.println();
-		System.out.println(prefix + "Object Array Count: " + holder.arrayCount);
-		for (SSArray array : holder.getArrays()) {
-			System.out.println();
-			System.out.println(prefix + "\tArray Type: " + array.type);
-			System.out.println(prefix + "\tArray Name: " + new String(array.name));
-			System.out.println(prefix + "\tArray Value: " + intsTostring(array.getInt()));
-		}
 		System.out.println();
 		System.out.println(prefix + "Printed arrays and fields");
 		System.out.println("Printing objects");

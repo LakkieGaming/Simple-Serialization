@@ -29,6 +29,12 @@ public class SSHolder extends SSVariable {
 
 	public SSHolder() {
 		super((short) -1, null, SSVariableType.HOLDER.getTypeID());
+		this.objects = new LinkedList<SSObject>();
+		this.fields = new LinkedList<SSField>();
+		this.arrays = new LinkedList<SSArray>();
+		this.objectCount = 0;
+		this.fieldCount = 0;
+		this.arrayCount = 0;
 	}
 
 	public void addObject(SSObject object) {
@@ -66,15 +72,15 @@ public class SSHolder extends SSVariable {
 		this.size -= array.size;
 		this.objectCount--;
 	}
-	
+
 	public List<SSObject> getObjects() {
 		return objects;
 	}
-	
+
 	public List<SSField> getFields() {
 		return fields;
 	}
-	
+
 	public List<SSArray> getArrays() {
 		return arrays;
 	}

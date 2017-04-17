@@ -1,9 +1,9 @@
-package com.schiebros.serialization.object;
+package net.battlemania.serialization.object;
 
-import com.schiebros.serialization.ArrayReader;
-import com.schiebros.serialization.ArrayWriter;
-import com.schiebros.serialization.DataReader;
-import com.schiebros.serialization.DataWriter;
+import net.battlemania.serialization.ArrayReader;
+import net.battlemania.serialization.ArrayWriter;
+import net.battlemania.serialization.DataReader;
+import net.battlemania.serialization.DataWriter;
 
 public class SSField extends SSVariable {
 

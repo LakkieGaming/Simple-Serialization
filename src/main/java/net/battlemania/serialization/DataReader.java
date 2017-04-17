@@ -1,4 +1,4 @@
-package com.schiebros.serialization;
+package net.battlemania.serialization;
 
 import java.nio.ByteBuffer;
 

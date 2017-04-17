@@ -1,4 +1,4 @@
-package com.schiebros.serialization;
+package net.battlemania.serialization;
 
 public class ArrayWriter extends DataWriter {
 

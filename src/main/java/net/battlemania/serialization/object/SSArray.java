@@ -1,7 +1,7 @@
-package com.schiebros.serialization.object;
+package net.battlemania.serialization.object;
 
-import com.schiebros.serialization.ArrayReader;
-import com.schiebros.serialization.ArrayWriter;
+import net.battlemania.serialization.ArrayReader;
+import net.battlemania.serialization.ArrayWriter;
 
 public class SSArray extends SSVariable {
 

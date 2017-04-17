@@ -1,9 +1,9 @@
-package com.schiebros.serialization.test;
+package net.battlemania.serialization.test;
 
-import com.schiebros.serialization.object.SSArray;
-import com.schiebros.serialization.object.SSField;
-import com.schiebros.serialization.object.SSHolder;
-import com.schiebros.serialization.object.SSObject;
+import net.battlemania.serialization.object.SSArray;
+import net.battlemania.serialization.object.SSField;
+import net.battlemania.serialization.object.SSHolder;
+import net.battlemania.serialization.object.SSObject;
 
 public class TestMain {
 

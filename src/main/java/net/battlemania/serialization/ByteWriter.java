@@ -1,4 +1,4 @@
-package com.schiebros.serialization;
+package net.battlemania.serialization;
 
 import java.util.ArrayList;
 import java.util.List;

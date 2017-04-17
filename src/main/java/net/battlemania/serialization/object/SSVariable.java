@@ -1,4 +1,4 @@
-package com.schiebros.serialization.object;
+package net.battlemania.serialization.object;
 
 public abstract class SSVariable {
 

@@ -1,100 +1,98 @@
-package com.schiebros.serialization.object;
+package net.battlemania.serialization.object;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.schiebros.serialization.ArrayReader;
-import com.schiebros.serialization.ArrayWriter;
+import net.battlemania.serialization.ArrayReader;
+import net.battlemania.serialization.ArrayWriter;
 
-public class SSHolder extends SSVariable {
+public class SSObject extends SSVariable {
 
-	public short objectCount;
-	public List<SSObject> objects;
 	public short fieldCount;
-	public List<SSField> fields;
+	private List<SSField> fields;
 	public short arrayCount;
-	public List<SSArray> arrays;
+	private List<SSArray> arrays;
 
-	public SSHolder(char[] name) {
-		super((short) name.length, name, SSVariableType.HOLDER.getTypeID());
-		this.objects = new LinkedList<SSObject>();
+	public SSObject(char[] name) {
+		super((short) name.length, name, SSVariableType.OBJECT.getTypeID());
 		this.fields = new LinkedList<SSField>();
 		this.arrays = new LinkedList<SSArray>();
-		this.objectCount = 0;
 		this.fieldCount = 0;
 		this.arrayCount = 0;
-		// nameLength + name + type + objectCount + fieldCount + arrayCount
-		this.size = (short) (2 + this.nameLength * 2 + 1 + 2 + 2 + 2);
+		// nameLength + name + type + fieldCount + arrayCount
+		this.size = (short) (2 + this.nameLength * 2 + 1 + 2 + 2);
 	}
 
-	public SSHolder() {
-		super((short) -1, null, SSVariableType.HOLDER.getTypeID());
-	}
-
-	public void addObject(SSObject object) {
-		objects.add(object);
-		this.size += object.size;
-		this.objectCount++;
-	}
-
-	public void removeObject(SSObject object) {
-		objects.remove(object);
-		this.size -= object.size;
-		this.objectCount--;
+	public SSObject() {
+		super((short) -1, null, SSVariableType.OBJECT.getTypeID());
+		this.fields = new LinkedList<SSField>();
+		this.arrays = new LinkedList<SSArray>();
+		this.fieldCount = 0;
+		this.arrayCount = 0;
 	}
 
 	public void addField(SSField field) {
-		fields.add(field);
+		this.fields.add(field);
 		this.size += field.size;
-		this.objectCount++;
+		this.fieldCount++;
 	}
 
 	public void removeField(SSField field) {
-		fields.remove(field);
+		this.fields.remove(field);
 		this.size -= field.size;
-		this.objectCount--;
+		this.fieldCount--;
 	}
 
 	public void addArray(SSArray array) {
-		arrays.add(array);
+		this.arrays.add(array);
 		this.size += array.size;
-		this.objectCount++;
+		this.arrayCount++;
 	}
 
 	public void removeArray(SSArray array) {
-		arrays.remove(array);
+		this.arrays.remove(array);
 		this.size -= array.size;
-		this.objectCount--;
+		this.arrayCount--;
 	}
-	
-	public List<SSObject> getObjects() {
-		return objects;
+
+	public SSField getField(String name) {
+		for (SSField field : getFields()) {
+			if (new String(field.name).equals(name)) {
+				return field;
+			}
+		}
+		return null;
 	}
-	
+
 	public List<SSField> getFields() {
-		return fields;
+		return this.fields;
 	}
-	
+
+	public SSArray getArray(String name) {
+		for (SSArray array : getArrays()) {
+			if (new String(array.name).equalsIgnoreCase(name)) {
+				return array;
+			}
+		}
+		return null;
+	}
+
 	public List<SSArray> getArrays() {
-		return arrays;
+		return this.arrays;
 	}
 
 	public byte[] runExport() {
 		byte[] buffer = new byte[this.size];
 		int index = 0;
-		index = ArrayWriter.writeInlineBytes(index, type, buffer);
-		index = ArrayWriter.writeInlineBytes(index, nameLength, buffer);
-		index = ArrayWriter.writeInlineArray(index, name, buffer);
-		index = ArrayWriter.writeInlineBytes(index, objectCount, buffer);
-		for (SSObject object : objects) {
-			index = ArrayWriter.writeInlineArray(index, object.runExport(), buffer);
-		}
+		index = ArrayWriter.writeInlineBytes(index, this.type, buffer);
+		index = ArrayWriter.writeInlineBytes(index, this.nameLength, buffer);
+		index = ArrayWriter.writeInlineArray(index, this.name, buffer);
 		index = ArrayWriter.writeInlineBytes(index, fieldCount, buffer);
-		for (SSField field : fields) {
+		for (SSField field : this.fields) {
 			index = ArrayWriter.writeInlineArray(index, field.runExport(), buffer);
 		}
 		index = ArrayWriter.writeInlineBytes(index, arrayCount, buffer);
-		for (SSArray array : arrays) {
+		for (SSArray array : this.arrays) {
 			index = ArrayWriter.writeInlineArray(index, array.runExport(), buffer);
 		}
 		return buffer;
@@ -111,17 +109,9 @@ public class SSHolder extends SSVariable {
 		offset += 2;
 		this.name = ArrayReader.readInlineArray(offset, new char[this.nameLength], data);
 		offset += this.nameLength * 2;
-		this.size = (short) (2 + this.nameLength * 2 + 1 + 2 + 2 + 2);
-		this.objectCount = ArrayReader.readInlineShort(data, offset);
-		offset += 2;
-		while (identifyType(data, offset) == SSVariableType.OBJECT) {
-			SSObject object = new SSObject();
-			object.runImport(data, offset);
-			this.objects.add(object);
-			offset += object.size;
-		}
 		this.fieldCount = ArrayReader.readInlineShort(data, offset);
 		offset += 2;
+		this.size = (short) (2 + this.nameLength * 2 + 1 + 2 + 2);
 		while (identifyType(data, offset) == SSVariableType.FIELD) {
 			SSField field = new SSField();
 			field.runImport(data, offset);

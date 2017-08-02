@@ -171,5 +171,11 @@ public class SSArray extends SSVariable {
 		ArrayWriter.writeInlineArray(0, data, buffer);
 		return new SSArray(name.toCharArray(), buffer, SSType.DOUBLE);
 	}
+	
+	public static SSArray asBooleanArray(String name, boolean[] data) {
+		byte[] buffer = new byte[data.length];
+		ArrayWriter.writeInlineArray(0, data, buffer);
+		return new SSArray(name.toCharArray(), buffer, SSType.BOOLEAN);
+	}
 
 }
